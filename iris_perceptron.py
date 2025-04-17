@@ -1,4 +1,4 @@
-# Slip Ref: Perceptron on IRIS - Versicolor vs Virginica with learning rate variations
+
 
 from sklearn.datasets import load_iris
 from sklearn.linear_model import Perceptron
@@ -6,19 +6,19 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-# Load harder binary classes: Versicolor (1) vs Virginica (2)
-X, y = load_iris(return_X_y=True)
-X = X[50:]  # Take last 100 samples (classes 1 and 2)
-y = y[50:]
-y = (y == 1).astype(int)  # Versicolor = 1, Virginica = 0
 
-# Scale features
+X, y = load_iris(return_X_y=True)
+X = X[50:]  
+y = y[50:]
+y = (y == 1).astype(int)  
+
+
 X = StandardScaler().fit_transform(X)
 
-# Train/test split
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
 
-# Train with different learning rates
+
 learning_rates = [0.0001, 0.01, 0.5, 1.0]
 epochs = 25
 plt.figure(figsize=(10, 6))

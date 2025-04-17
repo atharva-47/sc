@@ -1,38 +1,44 @@
-# Slip: 1, 5, 11, 15
 
-# Define two fuzzy sets as dictionaries: {element: membership_value}
-A = {'a': 0.2, 'b': 0.5, 'c': 0.7}
-B = {'a': 0.4, 'b': 0.3, 'c': 0.9}
+def union(A, B):
+    Y = {}
+    for x in A:
+        Y[x] = max(A[x], B[x])
+    return Y
+def intersection(A, B):
+    Y = {}
+    for x in A:
+        Y[x] = min(A[x], B[x])
+    return Y
 
-# Union of A and B: max(A(x), B(x))
-union = {x: max(A.get(x, 0), B.get(x, 0)) for x in set(A) | set(B)}
+def complement(A):
+    Y = {}
+    for x in A:
+        Y[x] = round(1 - A[x],2)
+    return Y
 
-# Intersection of A and B: min(A(x), B(x))
-intersection = {x: min(A.get(x, 0), B.get(x, 0)) for x in set(A) & set(B)}
+def difference(A, B):
+    Y = intersection(A, complement(B))
+    return Y   
 
-# Complement of A: 1 - A(x)
-complement_A = {x: 1 - A[x] for x in A}
-
-# Difference A - B: min(A(x), 1 - B(x))
-difference = {x: min(A.get(x, 0), 1 - B.get(x, 0)) for x in A}
-
-# Cartesian Product: returns a set of tuples ((x, y), min(A(x), B(y)))
 def cartesian_product(A, B):
-    result = {}
+    Y = {}
     for x in A:
         for y in B:
-            result[(x, y)] = min(A[x], B[y])
-    return result
+            Y[(x,y)] = min(A[x], B[y])
+    return Y
 
-cartesian = cartesian_product(A, B)
 
-# Display Results
-print("Fuzzy Set A:", A)
-print("Fuzzy Set B:", B)
-print("\nUnion (A ∪ B):", union)
-print("Intersection (A ∩ B):", intersection)
-print("Complement of A (A'):", complement_A)
-print("Difference (A - B):", difference)
-print("Cartesian Product (A × B):")
-for pair in cartesian:
-    print(f"{pair}: {cartesian[pair]}")
+A = {'a' : 0.2 , 'b': 0.5, 'c': 0.8}
+B = {'a' : 0.4 , 'b': 0.1, 'c': 0}
+
+
+print(difference(A, B))
+print("\n")
+print(complement(B))
+print(union(A, B))
+print("\n")
+print(intersection(A, B))
+print("\n")
+Y = cartesian_product(A, B)
+for x in Y:
+    print(x,":", Y[x]," \n" )
